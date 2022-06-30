@@ -1,35 +1,35 @@
-import 'package:expenses/components/transaction_user.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'pages/my_home_page.dart';
 
 void main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
+  final ThemeData theme = ThemeData();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expenses'),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            color: Colors.blue,
-            child: Card(
-              child: Text('grafico'),
-            ),
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
+          primary: Colors.purple,
+          secondary: Colors.amber,
+        ),
+        textTheme: theme.textTheme.copyWith(
+          headline6: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.purple,
           ),
-          TransactionUser(),
-        ],
+        ),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
