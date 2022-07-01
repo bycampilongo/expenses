@@ -25,9 +25,9 @@ class ExpensesApp extends StatelessWidget {
         ),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontFamily: 'Quicksand',
+            fontSize: 24,
+            // fontWeight: FontWeight.bold,
           ),
         ),
       ),
