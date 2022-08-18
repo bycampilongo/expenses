@@ -42,15 +42,36 @@ class _TransactionFormState extends State<TransactionForm> {
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             onSubmitted: (_) => _submit(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: _submit,
-                child: Text('Nova despesa'),
+          Container(
+            height: 90,
+            child: Row(
+              children: [
+                Text('Nehuma data selecionada!'),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Selecionar Data'),
+                )
+              ],
+            ),
+          ),
+          Spacer(),
+          Container(
+            margin: EdgeInsets.only(
+              bottom: 20,
+            ),
+            width: MediaQuery.of(context).size.width * 1,
+            height: 60,
+            child: ElevatedButton(
+              onPressed: _submit,
+              child: Text(
+                'Nova despesa',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
               ),
-            ],
-          )
+            ),
+          ),
         ]),
       ),
     );
