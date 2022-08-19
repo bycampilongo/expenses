@@ -5,9 +5,10 @@ import 'pages/my_home_page.dart';
 void main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
-  final ThemeData theme = ThemeData();
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = ThemeData();
+
     return MaterialApp(
       home: MyHomePage(),
       theme: theme.copyWith(

@@ -4,13 +4,14 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List transactions;
+  final void Function(String) onRemove;
 
-  TransactionList({required this.transactions});
+  TransactionList({required this.transactions, required this.onRemove});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 600,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.6,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -66,7 +67,36 @@ class TransactionList extends StatelessWidget {
                     subtitle: Text(
                       DateFormat('d MMM y').format(tr.date),
                     ),
-                    trailing: const Icon(Icons.delete),
+                    trailing: IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Remover Despesa'),
+                                content: Text(
+                                    'Deseja remover a despesa ${tr.title}'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      onRemove(tr.id);
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Sim!'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      icon: const Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                    ),
                   ),
                 );
               },

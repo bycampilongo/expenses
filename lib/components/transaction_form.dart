@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final void Function(String, double) onSubmit;
+  final void Function(String, double, DateTime) onSubmit;
 
   TransactionForm(this.onSubmit);
 
@@ -11,17 +12,30 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final titleController = TextEditingController();
-
-  final valueController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _valueController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
 
   _submit() {
-    final title = titleController.text;
-    final value = double.tryParse(valueController.text) ?? 0.0;
+    final title = _titleController.text;
+    final value = double.tryParse(_valueController.text) ?? 0.0;
     // validate
-    if (title.isEmpty || value <= 0) return;
+    if (title.isEmpty || value < 0) return;
     // submit
-    widget.onSubmit(title, value);
+    widget.onSubmit(title, value, _selectedDate);
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      setState(() {
+        _selectedDate = (value as DateTime);
+      });
+    });
   }
 
   @override
@@ -32,24 +46,31 @@ class _TransactionFormState extends State<TransactionForm> {
         padding: const EdgeInsets.all(10),
         child: Column(children: [
           TextField(
-            decoration: InputDecoration(labelText: 'Título'),
-            controller: titleController,
+            decoration: const InputDecoration(labelText: 'Título'),
+            controller: _titleController,
             onSubmitted: (_) => _submit(),
           ),
           TextField(
-            decoration: InputDecoration(labelText: 'Valor (R\$)'),
-            controller: valueController,
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            decoration: const InputDecoration(labelText: 'Valor (R\$)'),
+            controller: _valueController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             onSubmitted: (_) => _submit(),
           ),
-          Container(
+          SizedBox(
             height: 90,
             child: Row(
               children: [
-                Text('Nehuma data selecionada!'),
+                Expanded(
+                  child: Text(
+                    'Data da despesa: ${DateFormat('d/M/y').format(_selectedDate)}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
                 TextButton(
-                  onPressed: () {},
-                  child: const Text('Selecionar Data'),
+                  onPressed: _showDatePicker,
+                  child: const Text(
+                    'Selecionar a data',
+                  ),
                 )
               ],
             ),
